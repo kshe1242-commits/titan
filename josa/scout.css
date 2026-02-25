@@ -1,0 +1,463 @@
+body {
+  margin: 0;
+  background: #0b0b0b;
+  color: rgb(255, 255, 255);
+  font-family: sans-serif;
+}
+
+/* 상단 네비 */
+.main-nav {
+  height: 80px;
+  background: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 60px;
+  border-bottom: 1px solid #222;
+  position: sticky;
+  top: 0;
+  z-index: 99999;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 40px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #aaa;
+  transition: 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links .active {
+  color: #2679b1;
+}
+.main-nav:hover {
+  color: #2679b1;
+}
+a {
+  color: inherit; /* 부모 요소의 글자 색을 그대로 따라감 */
+  text-decoration: none; /* 클릭 후 생기는 밑줄 방지 */
+}
+/* 목록 */
+.character-grid {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 0 10% 100px;
+}
+
+.character-card {
+  width: calc(33.333% - 20px);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.character-card:hover {
+  transform: scale(1.05);
+}
+
+.character-card img {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+}
+
+/* 상세 */
+#detail-view {
+  display: none;
+  padding: 100px 6%;
+}
+
+.detail-layout {
+  display: flex;
+  gap: 50px;
+}
+/* 움짤 */
+
+#detail-gif {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* 왼쪽 이름 리스트 */
+.character-sidebar {
+  width: 200px;
+  border-right: 1px solid #222;
+}
+
+.character-sidebar div {
+  padding: 12px;
+  cursor: pointer;
+  color: #aaa;
+  transition: 0.3s;
+}
+
+.character-sidebar div:hover,
+.character-sidebar .active {
+  background: #1a1a1a;
+  color: #3d6a9e;
+}
+
+/* 가운데 일러스트 */
+.illustration-area {
+  flex: 1.4;
+  min-width: 600px;
+}
+
+.illustration-area img {
+  width: 100%;
+  height: 700px;
+  object-fit: contain;
+}
+
+/* 오른쪽 정보 */
+.info-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.video-box {
+  width: 100%;
+  aspect-ratio: 16/9;
+}
+
+.video-box iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.info-box,
+.story-box {
+  background: #1a1a1a;
+  padding: 20px;
+  border: 1px solid #222;
+}
+
+.back-btn {
+  margin-bottom: 40px;
+  padding: 8px 20px;
+  background: #111;
+  border: 1px solid #333;
+  color: white;
+  cursor: pointer;
+}
+/* ===== 공통 페이드인 ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.8s ease forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 카드 순차 등장 */
+.character-card {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 0.6s ease;
+}
+
+.character-card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 상세 전환 부드럽게 */
+#detail-view {
+  opacity: 0;
+  transition: 0.5s ease;
+}
+
+#detail-view.active {
+  opacity: 1;
+}
+
+/* 사이드바 부드럽게 */
+.character-sidebar div {
+  transform: translateX(-10px);
+  opacity: 0;
+  transition: 0.4s ease;
+}
+
+.character-sidebar div.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+/* 타이핑 텍스트 */
+.typing {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #aaa;
+  letter-spacing: 2px;
+  min-height: 24px;
+}
+
+/* 커서 효과 */
+.typing::after {
+  content: "|";
+  margin-left: 5px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
+.title-wrapper h1 {
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #9ea7aa 40%,
+    #5c6b73 60%,
+    #ffffff 100%
+  );
+
+  text-shadow:
+    0 0 10px rgba(0, 0, 0, 0.8),
+    0 0 25px rgba(0, 74, 148, 0.6);
+}
+.character-card {
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: 0.3s;
+  text-align: center;
+}
+
+.character-card:hover {
+  border: 2px solid #2679b1;
+  box-shadow: 0 0 15px #2679b1;
+}
+
+.character-card img {
+  width: 100%;
+  transition: 0.4s ease;
+}
+
+.character-card:hover img {
+  transform: scale(1.12);
+  filter: brightness(70%);
+}
+.character-card img {
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.detail-img-box {
+  text-align: center;
+}
+
+.main-img {
+  width: 400px;
+  height: 500px;
+  object-fit: cover;
+  transition: 0.3s;
+}
+
+.thumbnail-box {
+  margin-top: 10px;
+}
+
+.thumbnail-box img {
+  width: 70px;
+  height: 90px;
+  margin: 5px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 0.3s;
+}
+
+.thumbnail-box img:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+.thumbnail-box {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid #444;
+  transition: 0.3s;
+}
+
+.thumb:hover {
+  transform: scale(1.1);
+  border: 2px solid crimson;
+}
+#detail-view {
+  display: none;
+}
+.slider {
+  position: relative;
+}
+
+.slide {
+  width: 100%;
+  height: 700px;
+  object-fit: cover;
+  display: none;
+}
+
+.slide.active {
+  display: block;
+}
+
+.prev,
+.next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  font-size: 30px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.prev {
+  left: 10px;
+}
+.next {
+  right: 10px;
+}
+
+.thumbnail-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.thumbnail-container img {
+  width: 70px;
+  height: 90px;
+  object-fit: cover;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.active-thumb {
+  opacity: 1 !important;
+  border: 2px solid crimson;
+}
+.title-wrapper h1 {
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #9ea7aa 40%,
+    #5c6b73 60%,
+    #ffffff 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+/* 헤더 영역 */
+.page-header {
+  text-align: center;
+  padding: 68px 0 60px;
+  border-bottom: 1px solid #222;
+}
+
+/* 제목과 로고를 묶는 상자 */
+.title-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin-bottom: 15px;
+}
+
+/* 조사병단 로고 이미지 */
+.header-logo {
+  width: 120px;
+  height: auto;
+  /* 조사병단의 푸른색 네온 그림자 */
+  filter: drop-shadow(0 0 15px rgba(38, 121, 177, 0.8));
+}
+
+.page-header h1 {
+  font-size: 3rem;
+  letter-spacing: 10px;
+  color: #2679b1; /* 조사병단 푸른색 */
+  margin: 0;
+  /* 기존에 있던 백그라운드 그라데이션과 텍스트 섀도우는 제거합니다 */
+  background: none;
+  -webkit-text-fill-color: initial;
+  text-shadow: none;
+}
+
+/* 타이핑 텍스트 효과 (헌병단과 동일) */
+.typing {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #f5f5f5;
+  letter-spacing: 5px;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+  min-height: 30px;
+  margin-top: 15px;
+}
+.typing::before {
+  content: "|";
+}
+.typing::after {
+  content: "|";
+  margin-left: 5px;
+  animation: blink 1s 1 forwards;
+}
+
+@keyframes blink {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
+.music-controls {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+#music-btn {
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: bisque;
+  border: 1px solid bisque;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#music-btn:hover {
+  background: bisque;
+  color: black;
+}

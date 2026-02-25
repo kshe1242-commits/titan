@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>상세 정보 - 진격의 거인</title>
+    <style>
+      body {
+        background-color: #000;
+        color: #fff;
+        font-family: "Apple SD Gothic Neo", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .detail-container {
+        width: 80%;
+        max-width: 900px;
+        display: flex;
+        gap: 50px;
+        border: 1px solid #004a94;
+        padding: 40px;
+        background: #111;
+      }
+      img {
+        width: 400px;
+        height: auto;
+        border: 2px solid #333;
+      }
+      .info h1 {
+        font-size: 3rem;
+        color: #004a94;
+        margin-top: 0;
+      }
+      .info p {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        color: #ccc;
+      }
+      .convert {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: 1px solid #004a94;
+        color: #fff;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+      .convert:hover {
+        background: #004a94;
+      }
+      .back-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: 1px solid #004a94;
+        color: #fff;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+      .back-btn:hover {
+        background: #004a94;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="detail-container" onclick="opendetail('gotitan.html')">
+      <img
+        src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTEwMzFfMjQg%2FMDAxNzYxOTAxOTE2NjA2.icU5jG8Qhfd_AvDtopaufjNnOzyK2Fvc3ukqmynh6YEg.krSG4gqRBjNPP5sUdpmxqi3GsxKcPin3qT62UheJGj0g.JPEG%2F%25B4%25D9%25BF%25EE%25B7%25CE%25B5%25E5_%25281%2529.jpeg&type=sc960_832"
+        alt="Eren"
+      />
+      <div class="info">
+        <h1>진격의 거인</h1>
+        <p><strong>제목:</strong> 진격의 거인</p>
+        <p><strong>보유 거인:</strong> 진격의 거인, 시조의 거인, 전퇴의 거인</p>
+        <p>
+          <strong>상세 설명:</strong> 거인의 위협으로부터 몸을 지키기 위해
+          거대한 벽을 쌓고 그 안에서 숨을 죽이고 살고 있는 인류. 백 년의 평화는
+          초대형 거인의 습격으로 파괴됐고,어머니를 잃은 소년 엘렌과 여러
+          주인공들이 인류를 지키기 위하여 만든 이야기 지금 시작합니다.
+        </p>
+        <a href="../titan/titan.html" class="convert">진격의 거인 이동</a>
+        <a href="#" class="back-btn" onclick="window.close()">창 닫기</a>
+      </div>
+    </div>
+  </body>
+</html>

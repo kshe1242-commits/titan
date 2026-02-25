@@ -1,0 +1,308 @@
+body {
+  margin: 0;
+  background: #0b0b0b;
+  color: white;
+  font-family: sans-serif;
+}
+
+/* ================= NAV ================= */
+
+.main-nav {
+  height: 80px;
+  background: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 60px;
+  border-bottom: 1px solid #222;
+  position: sticky;
+  top: 0;
+  z-index: 99999;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 40px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #aaa;
+  transition: 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links .active {
+  color: rgba(185, 28, 59, 0.555);
+}
+.main-nav :hover {
+  color: rgba(185, 28, 59, 0.555);
+}
+a {
+  color: inherit; /* 부모 요소의 글자 색을 그대로 따라감 */
+  text-decoration: none; /* 클릭 후 생기는 밑줄 방지 */
+}
+/* ================= HEADER ================= */
+.page-header {
+  text-align: center;
+  padding: 68px 0 60px;
+  border-bottom: 1px solid #222;
+}
+
+.page-header h1 {
+  font-size: 3rem;
+  letter-spacing: 10px;
+  color: rgba(185, 28, 59, 0.555);
+  margin: 0;
+  background: none;
+  -webkit-text-fill-color: initial;
+  text-shadow: none;
+}
+.typing {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #aaa;
+  letter-spacing: 2px;
+}
+.typing::before {
+  content: "|";
+}
+.typing::after {
+  content: "|";
+  margin-left: 5px;
+  animation: blink 1s 1 forwards;
+}
+
+/* ================= GRID ================= */
+
+.character-grid {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding: 0 10% 100px;
+}
+
+.character-card {
+  width: calc(33.333% - 20px);
+  cursor: pointer;
+  border-radius: 14px;
+  overflow: hidden;
+  text-align: center;
+  transition: 0.4s ease;
+}
+
+.character-card img {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  transition: 0.4s ease;
+}
+
+.character-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(185, 28, 59, 0.555);
+}
+
+.character-card:hover img {
+  transform: scale(1.08);
+}
+
+/* ================= DETAIL ================= */
+
+#detail-view {
+  display: none;
+  padding: 100px 6%;
+}
+
+.detail-layout {
+  display: flex;
+  gap: 50px;
+}
+
+.character-sidebar {
+  width: 200px;
+  border-right: 1px solid #222;
+}
+
+.character-sidebar div {
+  padding: 12px;
+  cursor: pointer;
+  color: #aaa;
+  transition: 0.3s;
+}
+
+.character-sidebar div:hover,
+.character-sidebar .active {
+  background: #1a1a1a;
+  color: rgba(185, 28, 59, 0.555);
+}
+
+/* ================= SLIDER ================= */
+
+.slider {
+  position: relative;
+  width: 100%;
+  height: 650px;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.prev,
+.next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: white;
+  font-size: 26px;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.prev {
+  left: 15px;
+}
+.next {
+  right: 15px;
+}
+
+/* ================= THUMBNAIL ================= */
+
+.thumbnail-container {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.thumbnail-container img {
+  width: 100px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 0.3s;
+  border: 2px solid transparent;
+}
+
+.thumbnail-container img.active-thumb {
+  opacity: 1;
+  border: 2px solid #4a6b53;
+  transform: scale(1.1);
+}
+
+/* ================= INFO ================= */
+
+.info-area {
+  flex: 1;
+}
+
+.video-box {
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.video-box video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-box,
+.story-box {
+  background: #1a1a1a;
+  padding: 20px;
+  border: 1px solid #222;
+}
+
+.back-btn {
+  margin-bottom: 40px;
+  padding: 8px 20px;
+  background: #111;
+  border: 1px solid #333;
+  color: white;
+  cursor: pointer;
+}
+.illustration-area {
+  flex: 1.4;
+  min-width: 600px;
+}
+.title-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin-bottom: 15px;
+}
+
+.hidden-titan {
+  position: absolute;
+  left: 80vh;
+  top: -100px;
+  width: 350px;
+  opacity: 0.5; /* 핵심: 거의 안보이게 */
+  filter: grayscale(25%) contrast(120%);
+  mix-blend-mode: lighten; /* 은은하게 섞이게 */
+  pointer-events: none;
+  z-index: 999;
+
+  animation: titanFadeIn 5s ease forwards;
+  animation-delay: 2s;
+}
+@keyframes titanFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.header-logo {
+  width: 120px;
+  height: auto;
+  object-fit: contain; /* 이미지 비율 찌그러짐 방지 */
+  /* 크림슨 붉은색 네온 빛 (투명 배경이어야 제대로 나옵니다!) */
+  filter: drop-shadow(0 0 15px rgba(220, 20, 60, 0.8));
+}
+.music-controls {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+#music-btn {
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: bisque;
+  border: 1px solid bisque;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#music-btn:hover {
+  background: bisque;
+  color: black;
+}

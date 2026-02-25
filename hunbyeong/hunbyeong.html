@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <title>진격의 거인 - 헌병단</title>
+    <link rel="stylesheet" href="hunbyeong.css" />
+  </head>
+  <body>
+    <nav class="main-nav">
+      <div class="logo">
+        <a href="../main/animation.html">ATTACK ON TITAN</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="../main/animation.html">메인</a></li>
+        <li><a href="../josa/scout.html">조사병단</a></li>
+        <li><a href="#" class="active" onclick="goBack()">헌병단</a></li>
+        <li><a href="../joodun/titan.html">주둔병단</a></li>
+        <li><a href="../titan/titan.html">아홉거인</a></li>
+      </ul>
+    </nav>
+    <header class="page-header" id="page-header">
+      <div class="title-wrapper">
+        <img
+          src="https://i.namu.wiki/i/IIBUlyEBXOOdctM41I_qqCW0Kqy3ovUtTXuSsVdovVSAJQB2Fl-othtvZ63AhGV4-SUyupkCgvsDfe6KT34a_ICHPWsL8KgxRdUR7ttQDP7wHOJRBXbFsli-7xvwH77LqF0inrFIA5h8VaeJ_WrY7Q.webp"
+          alt="헌병단 로고 좌"
+          class="header-logo"
+        />
+        <h1>헌병단</h1>
+        <img
+          src="https://i.namu.wiki/i/IIBUlyEBXOOdctM41I_qqCW0Kqy3ovUtTXuSsVdovVSAJQB2Fl-othtvZ63AhGV4-SUyupkCgvsDfe6KT34a_ICHPWsL8KgxRdUR7ttQDP7wHOJRBXbFsli-7xvwH77LqF0inrFIA5h8VaeJ_WrY7Q.webp"
+          alt="헌병단 로고 우"
+          class="header-logo"
+        />
+      </div>
+      <p id="typing-text" class="typing"></p>
+    </header>
+
+    <main id="list-view">
+      <section class="squad-section">
+        <h2 class="squad-title">일반 헌병단</h2>
+        <p class="squad-desc">
+          성벽 안의 치안 유지와 백성들의 통제, 왕성 근위병 역할을 표면적으로
+          담당하는 정규 군사 조직입니다.
+        </p>
+        <div class="character-grid" id="regular-grid"></div>
+      </section>
+
+      <section class="squad-section">
+        <h2 class="squad-title interior">중앙 제1헌병단 (대인 제압 부대)</h2>
+        <p class="squad-desc">
+          일반 헌병단과는 지휘 체계가 완전히 분리되어 있으며, 암살과 고문을
+          은밀히 수행하는 특수 비밀경찰입니다.
+        </p>
+        <div class="character-grid" id="interior-grid"></div>
+      </section>
+    </main>
+
+    <section id="detail-view">
+      <button class="back-btn" onclick="goBack()">← 목록으로 돌아가기</button>
+
+      <div class="detail-layout">
+        <aside class="character-sidebar" id="character-sidebar"></aside>
+
+        <div class="illustration-area">
+          <div class="main-slider">
+            <button class="slider-btn prev-btn" id="prev-btn">&#10094;</button>
+            <img id="slider-main-img" alt="캐릭터 메인 일러스트" />
+            <button class="slider-btn next-btn" id="next-btn">&#10095;</button>
+          </div>
+          <div class="thumbnail-track" id="thumbnail-track"></div>
+        </div>
+
+        <div class="info-area">
+          <h1 id="detail-name"></h1>
+
+          <div class="video-box">
+            <img
+              id="detail-video"
+              alt="캐릭터 움짤"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                background-color: black;
+                border: none;
+              "
+            />
+          </div>
+
+          <div class="info-box">
+            <h2>신상정보</h2>
+            <p id="detail-profile"></p>
+          </div>
+
+          <div class="story-box">
+            <h2>줄거리</h2>
+            <p id="detail-story"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div
+      id="local-top-badge"
+      style="
+        position: fixed;
+        bottom: 40px;
+        right: 0;
+        background: rgba(0, 0, 0, 0.85);
+        border: 2px solid #ffd700;
+        border-right: none;
+        border-radius: 12px 0 0 12px;
+        padding: 8px 12px;
+        display: none;
+        z-index: 9999;
+        text-align: center;
+        cursor: default;
+        box-shadow: -3px 3px 10px rgba(255, 215, 0, 0.3);
+        transition: 0.3s;
+      "
+      onmouseover="this.style.transform = 'translateX(-5px)'"
+      onmouseout="this.style.transform = 'translateX(0)'"
+    >
+      <div
+        style="
+          color: #ffd700;
+          font-weight: bold;
+          font-size: 0.65rem;
+          margin-bottom: 4px;
+        "
+      >
+        🔥 현재 1위
+      </div>
+      <img
+        id="local-top-img"
+        src=""
+        style="
+          width: 40px;
+          height: 40px;
+          object-fit: cover;
+          border-radius: 50%;
+          border: 1.5px solid #fff;
+          margin-bottom: 2px;
+        "
+      />
+      <div
+        id="local-top-name"
+        style="
+          color: #fff;
+          font-size: 0.8rem;
+          font-weight: bold;
+          white-space: nowrap;
+        "
+      ></div>
+      <div id="local-top-views" style="color: #aaa; font-size: 0.65rem"></div>
+    </div>
+    <script src="../view.js"></script>
+    <script src="./hunbyeong.js"></script>
+    <audio id="bgm" loop>
+      <source src="../music/wlsrur.mp3" type="audio/mpeg" />
+      브라우저가 오디오를 지원하지 않습니다.
+    </audio>
+
+    <div class="music-controls">
+      <button id="music-btn" onclick="toggleMusic()">🎵 BGM 재생</button>
+    </div>
+  </body>
+</html>

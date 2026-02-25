@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <title>진격의 거인 - 완벽 세계관 연대기 (모래바람 적용)</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body,
+      html {
+        height: 100%;
+        font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+        background: #050505;
+        color: #fff;
+        overflow: hidden;
+      }
+
+      /* 💡 배경 파티클 캔버스 */
+      #particle-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* 네비게이션 */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 80px;
+        background: rgba(0, 0, 0, 0.95);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 60px;
+        z-index: 1000;
+        border-bottom: 2px solid #004a94;
+      }
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: 2px;
+      }
+      .logo span {
+        color: #004a94;
+      }
+      .back-btn {
+        color: #aaa;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+        border: 1px solid #333;
+        padding: 8px 25px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+      }
+      .back-btn:hover {
+        background: #004a94;
+        color: #fff;
+        border-color: #004a94;
+      }
+
+      /* 메인 레이아웃 */
+      .history-layout {
+        display: flex;
+        height: 100vh;
+        padding-top: 80px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* 왼쪽 사이드바 */
+      .timeline-sidebar {
+        width: 350px;
+        background: rgba(10, 10, 10, 0.85);
+        border-right: 1px solid #222;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        z-index: 10;
+        backdrop-filter: blur(10px);
+      }
+      .timeline-sidebar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .timeline-sidebar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .timeline-sidebar::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 3px;
+      }
+
+      .timeline-header {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #004a94;
+        padding: 25px;
+        border-bottom: 1px solid #222;
+        background: rgba(0, 0, 0, 0.8);
+        position: sticky;
+        top: 0;
+        z-index: 5;
+      }
+      .era-btn {
+        padding: 20px 25px;
+        background: transparent;
+        border: none;
+        border-left: 4px solid transparent;
+        border-bottom: 1px solid #1a1a1a;
+        color: #777;
+        text-align: left;
+        cursor: pointer;
+        transition: 0.3s;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .era-btn:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: #ddd;
+      }
+      .era-btn.active {
+        background: rgba(20, 20, 20, 0.9);
+        color: #fff;
+        border-left-color: #ffd700;
+      }
+      .era-year {
+        font-size: 1rem;
+        font-weight: 900;
+        color: #ffd700;
+      }
+      .era-title {
+        font-size: 0.95rem;
+        line-height: 1.4;
+        word-break: keep-all;
+      }
+
+      /* 오른쪽 로드맵 콘텐츠 영역 */
+      .content-area {
+        flex: 1;
+        position: relative;
+        background: transparent;
+        overflow: hidden;
+      }
+
+      .era-panel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        display: flex;
+        align-items: center;
+      }
+      .era-panel.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .roadmap-container {
+        display: flex;
+        align-items: center;
+        overflow-x: auto;
+        width: 100%;
+        padding: 50px 50px 80px 50px;
+        gap: 0;
+        z-index: 1;
+      }
+      .roadmap-container::-webkit-scrollbar {
+        height: 10px;
+      }
+      .roadmap-container::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+      }
+      .roadmap-container::-webkit-scrollbar-thumb {
+        background: #004a94;
+        border-radius: 5px;
+      }
+
+      .roadmap-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 300px;
+        flex: 1;
+        position: relative;
+      }
+      .roadmap-item::after {
+        content: "";
+        position: absolute;
+        top: 148px;
+        left: 50%;
+        width: 100%;
+        height: 3px;
+        background: #004a94;
+        z-index: 1;
+      }
+      .roadmap-item:last-child::after {
+        display: none;
+      }
+
+      .roadmap-img {
+        width: 200px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 2px solid #333;
+        margin-bottom: 20px;
+        z-index: 2;
+        transition: 0.3s;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+      }
+      .roadmap-item:hover .roadmap-img {
+        transform: scale(1.1) translateY(-5px);
+        border-color: #ffd700;
+        cursor: pointer;
+        box-shadow: 0 10px 25px rgba(255, 215, 0, 0.5);
+      }
+
+      .roadmap-dot {
+        width: 18px;
+        height: 18px;
+        background: #ffd700;
+        border-radius: 50%;
+        border: 4px solid #000;
+        z-index: 2;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        margin-bottom: 25px;
+        transition: 0.3s;
+      }
+      .roadmap-item:hover .roadmap-dot {
+        background: #fff;
+        transform: scale(1.3);
+      }
+
+      .roadmap-content {
+        background: rgba(10, 10, 10, 0.85);
+        padding: 20px;
+        border-radius: 10px;
+        border-top: 3px solid #004a94;
+        width: 240px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+        transition: 0.3s;
+        backdrop-filter: blur(5px);
+      }
+      .roadmap-item:hover .roadmap-content {
+        transform: translateY(-5px);
+        border-top-color: #ffd700;
+        cursor: pointer;
+      }
+      .roadmap-content h3 {
+        color: #fff;
+        font-size: 1.1rem;
+        word-break: keep-all;
+        margin: 0;
+      }
+
+      /* 모달(팝업) CSS */
+      .history-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(8px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.3s;
+      }
+      .history-modal-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      .history-modal-content {
+        background: #111;
+        width: 700px;
+        max-width: 90%;
+        max-height: 90vh;
+        border: 2px solid #ffd700;
+        border-radius: 15px;
+        overflow-y: auto;
+        transform: translateY(30px);
+        transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9);
+      }
+      .history-modal-content::-webkit-scrollbar {
+        width: 8px;
+      }
+      .history-modal-content::-webkit-scrollbar-thumb {
+        background: #555;
+        border-radius: 4px;
+      }
+      .history-modal-overlay.show .history-modal-content {
+        transform: translateY(0);
+      }
+      .modal-img {
+        width: 100%;
+        height: 350px;
+        object-fit: contain;
+        border-bottom: 2px solid #333;
+      }
+      .modal-text-box {
+        padding: 40px;
+      }
+      .modal-text-box h2 {
+        color: #ffd700;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        word-break: keep-all;
+        line-height: 1.3;
+      }
+      .modal-text-box p {
+        color: #ddd;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        word-break: keep-all;
+        white-space: pre-wrap;
+      }
+      .modal-close-btn {
+        display: block;
+        width: 100%;
+        padding: 18px;
+        background: #004a94;
+        color: #fff;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: 0.3s;
+        border: none;
+        outline: none;
+      }
+      .modal-close-btn:hover {
+        background: #003366;
+      }
+
+      .music-controls {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 1000;
+      }
+
+      #music-btn {
+        padding: 10px 20px;
+        background: rgba(0, 0, 0, 0.7);
+        color: bisque;
+        border: 1px solid bisque;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      #music-btn:hover {
+        background: bisque;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="particle-canvas"></canvas>
+
+    <nav>
+      <div class="logo">ATTACK ON TITAN <span>CHRONICLE</span></div>
+      <a href="../main/animation.html" class="back-btn">← 메인으로 돌아가기</a>
+    </nav>
+
+    <div class="history-layout">
+      <div class="timeline-sidebar">
+        <div class="timeline-header">
+          진격의 거인 연대기<br /><span
+            style="font-size: 0.9rem; color: #aaa; font-weight: normal"
+            >(벽력 曆 기준)</span
+          >
+        </div>
+
+        <button class="era-btn active" onclick="showEra('era-1', this)">
+          <span class="era-year">1막. 고대와 방벽 (~743)</span>
+          <span class="era-title">거인의 탄생과 제국의 붕괴</span>
+        </button>
+        <button class="era-btn" onclick="showEra('era-2', this)">
+          <span class="era-year">2막. 사명과 탄생 (817~844)</span>
+          <span class="era-title">부흥파 결성과 에렌의 탄생</span>
+        </button>
+        <button class="era-btn" onclick="showEra('era-3', this)">
+          <span class="era-year">3막. 반격의 서막 (845~850)</span>
+          <span class="era-title">월 마리아 함락과 첫 승리</span>
+        </button>
+        <button class="era-btn" onclick="showEra('era-4', this)">
+          <span class="era-year">4막. 진실을 향해 (851~854)</span>
+          <span class="era-title">왕정 탈환과 마레의 선전포고</span>
+        </button>
+        <button class="era-btn" onclick="showEra('era-5', this)">
+          <span class="era-year">5막. 땅울림과 결말 (854~)</span>
+          <span class="era-title">최후의 전투와 세계의 끝</span>
+        </button>
+      </div>
+
+      <div class="content-area">
+        <div id="era-1" class="era-panel active">
+          <div class="roadmap-container">
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="유미르 프리츠, 거인의 힘 획득 (약 2,000년 전)"
+              data-desc="엘디아인 노예 유미르가 '모든 생명체의 근원'과 접촉, 거인의 힘을 얻음. 이후 엘디아 제국을 건설하고 마레를 포함한 여러 민족을 지배. 유미르는 13년 후 사망하며(유미르의 저주), 힘은 9개의 거인으로 분열되어 세 딸에게 계승됨."
+              data-img="https://mblogthumb-phinf.pstatic.net/MjAyMTAyMjFfMTgz/MDAxNjEzOTE2NDk1NDUx._ETi0MMuqmKbOmK47BP2PbYAw_fpK7qjJzItHx9Lb7sg.KBf3oNAk9AQ0VyAPHQWxWOQy9ZNJklj6TQkY8InHYCQg.PNG.yh8360/image.png?type=w800"
+            >
+              <img
+                class="roadmap-img"
+                src="https://mblogthumb-phinf.pstatic.net/MjAyMTAyMjFfMTgz/MDAxNjEzOTE2NDk1NDUx._ETi0MMuqmKbOmK47BP2PbYAw_fpK7qjJzItHx9Lb7sg.KBf3oNAk9AQ0VyAPHQWxWOQy9ZNJklj6TQkY8InHYCQg.PNG.yh8360/image.png?type=w800"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content"><h3>유미르, 거인의 힘 획득</h3></div>
+            </div>
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="대전쟁 & 엘디아 제국 붕괴 (벽력 743년경)"
+              data-desc="145대 왕 카를 프리츠가 마레와 내통, 9개 거인 중 7개를 마레에 넘기고 엘디아인을 이끌어 파라디섬으로 후퇴. 벽 안쪽 엘디아인의 기억을 세대별로 세탁. 마레가 '파라디의 악마'라는 프로파간다로 엘디아인을 전범 민족으로 낙인찍음."
+              data-img="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxOTA0MjlfNDIg%2FMDAxNTU2NTE4NzY4MjAy.t6eHYkgUqmTxxYSfkf3wgkz-tSXqpkrijyg8NEg4ceog.knfyJJKaL5e9ikMtDpAmgJrQuW0rcf3-8sefACkEgq8g.JPEG.28686%2F%25C1%25F8%25B0%25DD3_13%25C8%25AD.mp4_000535618.jpg&type=sc960_832"
+            >
+              <img
+                class="roadmap-img"
+                src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxOTA0MjlfNDIg%2FMDAxNTU2NTE4NzY4MjAy.t6eHYkgUqmTxxYSfkf3wgkz-tSXqpkrijyg8NEg4ceog.knfyJJKaL5e9ikMtDpAmgJrQuW0rcf3-8sefACkEgq8g.JPEG.28686%2F%25C1%25F8%25B0%25DD3_13%25C8%25AD.mp4_000535618.jpg&type=sc960_832"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content">
+                <h3>엘디아 제국 붕괴와 이주</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="era-2" class="era-panel">
+          <div class="roadmap-container">
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="그리샤 예거, 엘디아 부흥파 결성 (벽력 817년경)"
+              data-desc="마레 수용구역의 그리샤 예거가 왕가 혈통 디나 프리츠와 결혼, 엘디아 부흥파를 조직. 아들 지크 예거가 태어남."
+              data-img="https://i.namu.wiki/i/Odbrbxwaw-swmLvB3a7eN9tIoHGd9s6vdeu-J2_4NRbPr4MJUzpy97UVJweOZekkMm6uAha_9-tMRvPGNOq_ew.webp"
+            >
+              <img
+                class="roadmap-img"
+                src="https://i.namu.wiki/i/Odbrbxwaw-swmLvB3a7eN9tIoHGd9s6vdeu-J2_4NRbPr4MJUzpy97UVJweOZekkMm6uAha_9-tMRvPGNOq_ew.webp"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content"><h3>엘디아 부흥파 결성</h3></div>
+            </div>
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="그리샤, 진격의 거인 계승 (벽력 825년경)"
+              data-desc="마레 당국에 발각된 부흥파 멤버들이 파라디섬에 순수거인으로 사출됨. 이때 '올빼미(에렌 크루거)'가 그리샤에게 진격의 거인을 먹여 계승시킴. 그리샤는 벽 안으로 잠입."
+              data-img="https://i.namu.wiki/i/8lHw12h30NEPFXpsFq_1yv5NLFX--ZPMwcP3ea38YrM7dcR1PTrFs7eSfs39SeF-3--HdnTo6DgSTrgBlFPX_Q.webp"
+            >
+              <img
+                class="roadmap-img"
+                src="https://i.namu.wiki/i/8lHw12h30NEPFXpsFq_1yv5NLFX--ZPMwcP3ea38YrM7dcR1PTrFs7eSfs39SeF-3--HdnTo6DgSTrgBlFPX_Q.webp"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content"><h3>진격의 거인 계승</h3></div>
+            </div>
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="에렌 예거 탄생 (벽력 844년)"
+              data-desc="그리샤가 벽 안에서 의사로 정착 후 카를라와 재혼, 에렌 예거 출생. 미카사 아커만도 이 시기 에렌 가족과 인연을 맺음."
+              data-img="https://i.namu.wiki/i/gt5tq2kzuRfeOg_1VmA4iRvblm74knTpktTxJ501D51baLE5p59zTbfMWRmwxR2YBh_OtOGkgarMIeMJnN-NKQ.webp"
+            >
+              <img
+                class="roadmap-img"
+                src="https://i.namu.wiki/i/gt5tq2kzuRfeOg_1VmA4iRvblm74knTpktTxJ501D51baLE5p59zTbfMWRmwxR2YBh_OtOGkgarMIeMJnN-NKQ.webp"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content"><h3>에렌 예거 탄생</h3></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="era-3" class="era-panel">
+          <div class="roadmap-container">
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="시가시나 구 함락 / 마리아 벽 붕괴 (벽력 845년) ⭐"
+              data-desc="초대형 거인(베르트홀트)과 갑주거인(라이너)이 마리아 벽을 파괴. 에렌의 어머니 카를라가 웃음 거인(디나 프리츠)에게 포식됨. 그리샤는 에렌에게 진격의 거인+시조 거인을 계승시키고 에렌에게 잡아먹힘. 인류 인구의 약 20%가 사망 또는 식량 부족으로 소멸."
+              data-img="https://i.namu.wiki/i/QvfbyWsSSV1VjWKXSmGWPwhQctzxoNcHzp6V0DlTo1QRe9aeDXYM-ERMVQybawFcwilAlIEIyeHt2iMoxoqLMA.webp"
+            >
+              <img
+                class="roadmap-img"
+                src="https://i.namu.wiki/i/QvfbyWsSSV1VjWKXSmGWPwhQctzxoNcHzp6V0DlTo1QRe9aeDXYM-ERMVQybawFcwilAlIEIyeHt2iMoxoqLMA.webp"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content">
+                <h3 style="color: #ff4d4d">시가시나 구 함락 ⭐</h3>
+              </div>
+            </div>
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="104기 훈련병단 입단 (벽력 847년)"
+              data-desc="에렌, 미카사, 아르민을 포함한 훈련병들이 입단. 라이너, 베르트홀트, 애니, 유미르, 히스토리아 등 동기생들과 훈련 시작. 3년간 훈련."
+              data-img="https://3.gall-img.com/tdgall/files/attach/images/82/305/742/070/0b86a6f8c203f639c4b4a092a7fc0c74.jpg"
+            >
+              <img
+                class="roadmap-img"
+                src="https://3.gall-img.com/tdgall/files/attach/images/82/305/742/070/0b86a6f8c203f639c4b4a092a7fc0c74.jpg"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content"><h3>104기 훈련병단 입단</h3></div>
+            </div>
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="트로스트 구 전투 & 에렌 거인화 (벽력 850년) ⭐"
+              data-desc="졸업 직후 초대형 거인이 다시 출현. 에렌이 처음으로 거인으로 변신해 토마스를 구하려다 실패, 이후 거인을 조종해 구멍을 막음. 군사재판에서 조사병단에 배속."
+              data-img="https://i.namu.wiki/i/nll-Rs4IF7e-DmiXr2yv55vo75ViIq7uXmxZFomQM9Ja8P5BrObZGOnDr-kIk5lYFKisK3IZTB0Krk_CR7YVNg.webp"
+            >
+              <img
+                class="roadmap-img"
+                src="https://i.namu.wiki/i/nll-Rs4IF7e-DmiXr2yv55vo75ViIq7uXmxZFomQM9Ja8P5BrObZGOnDr-kIk5lYFKisK3IZTB0Krk_CR7YVNg.webp"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content">
+                <h3 style="color: #ff4d4d">트로스트 구 전투 ⭐</h3>
+              </div>
+            </div>
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="57회 벽 외 조사 / 여형 거인 전투 (벽력 850년)"
+              data-desc="조사병단 원정 중 에렌을 노리는 여형 거인 등장. 리바이 분대가 전멸. 결국 애니 레온하트가 여형 거인임이 밝혀지고, 수정에 봉인됨."
+              data-img="https://dcimg1.dcinside.com/viewimage.php?id=25b4c332eac031a7&no=24b0d769e1d32ca73ceb81fa11d02831ec6fc61317e610776c2e373a7751189a08bdc3d850a4bcf2217331bad4e4d3d831d8e7c40f1135c1ca0ae3f197b889ae3d34ac1ec7cb443d1c45045dd8ed57cc0b1ec377dc106965177b7515aa6b97cc1370bda1"
+            >
+              <img
+                class="roadmap-img"
+                src="https://mblogthumb-phinf.pstatic.net/20130811_188/edoter_1376189516095Czy1J_JPEG/048.jpg?type=w420"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content"><h3>여형 거인 전투</h3></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="era-4" class="era-panel">
+          <div class="roadmap-container">
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="로제 벽 거인 출현 사건 / 수인의 거인 (벽력 851년)"
+              data-desc="로제 벽 안쪽에서 거인이 출현. 유미르가 거인 시프터임을 밝힘. 라이너와 베르트홀트가 동료들 앞에서 갑주거인·초대형 거인임을 고백, 에렌을 납치. 조사병단이 에렌을 탈환하는 과정에서 유미르는 자신의 의지로 라이너에게 돌아감."
+              data-img="https://i.namu.wiki/i/ecVMefka3hme8OpyP-TjCKecQ7in03PLBjDh8m211QOg0gsZygA6FJyDSaraxUJ-DED0-VvhnXmNyox9sxdLug.gif"
+            >
+              <img
+                class="roadmap-img"
+                src="https://i.namu.wiki/i/BL6wlq4_H9gDqJ9Xe0THtFmg-NzqR32D5OMWEeOdNjiA29feg6kKSTJQt9QCI8fytetfBv-pkbkVAE5UoO-zbQ.webp"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content"><h3>정체 발각 및 납치</h3></div>
+            </div>
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="왕정 편 (거병) (벽력 851년)"
+              data-desc="병단 내 쿠데타 시도. 케니 아커만이 등장. 히스토리아의 진짜 신분(레이스 왕가)이 밝혀짐. 로드 레이스가 에렌에게서 시조 거인을 빼앗으려다 히스토리아에게 저지당하고 죽음. 히스토리아가 여왕으로 즉위."
+              data-img="https://blog.kakaocdn.net/dna/coE0ZH/btrh9SqQDoV/AAAAAAAAAAAAAAAAAAAAAOqeyRd2Fp98T5W5jWsBCwib2oRRg481x1GCDXSFuJIM/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1772290799&allow_ip=&allow_referer=&signature=HJXxZUr536jpzmrkZhqse%2FlJrFY%3D"
+            >
+              <img
+                class="roadmap-img"
+                src="data:image/jpeg;base64,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"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content">
+                <h3>왕정 쿠데타와 여왕 즉위</h3>
+              </div>
+            </div>
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="시가시나 구 탈환 작전 (850년 말~851년) ⭐"
+              data-desc="조사병단이 시가시나 구 탈환에 성공. 베르트홀트(초대형 거인)를 아르민의 희생으로 쓰러뜨리고, 아르민에게 초대형 거인 계승. 지크 예거(수인 거인)가 조사병단을 거의 전멸시키고 퇴각. 에르빈 스미스 전사. 그리샤의 지하실에서 벽 밖 세계의 진실이 담긴 기록 발견."
+              data-img="https://i.namu.wiki/i/d5yxT_m1XAQtcNteYaekQ-5QJ2RaahhiCHFrZ7CZpgEhRx2-ueB-7ZzCRiQvavLOOVxqsYPh0jtw6SdoHDOfDQ.webp"
+            >
+              <img
+                class="roadmap-img"
+                src="https://i2.ruliweb.com/ori/25/06/29/197bb444fee4fe298.jpg"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content">
+                <h3 style="color: #ff4d4d">시가시나 구 탈환 작전 ⭐</h3>
+              </div>
+            </div>
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="마레 편 시작 (벽력 854년) ⭐"
+              data-desc="마레와 중동연합의 전쟁 종결. 마레 전사대(라이너, 지크, 피크, 포르코)와 전사 후보생(가비, 팔코 등) 등장. 월드빌딩이 대폭 확장됨."
+              data-img="https://i.namu.wiki/i/FBoBrHW3hXZXD9vSD2mtoPRteYdUabehQ1jtEuzlY119HE4UEhryQkGviduLEf_y4k5opWk1ZRezh5ktTYnD_w.webp"
+            >
+              <img
+                class="roadmap-img"
+                src="https://i.namu.wiki/i/EkQTsIN1hzS1uYl44F6KYZc2LveZEydPbhchWH_o7g5EFDr6mdlhy5faJp8xdqMIH3z7vgZ2j62OtlMzU4H4wA.webp"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content">
+                <h3 style="color: #ff4d4d">마레 편 시작 ⭐</h3>
+              </div>
+            </div>
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="리베리오 축제 / 타이버 연설 (벽력 854년)"
+              data-desc="윌리 타이버가 세계 각국 외교관 앞에서 '엘디아가 진짜 적'이라 선언하는 순간, 에렌이 전쟁 망치 거인을 먹고 리베리오를 습격. 윌리 타이버 사망. 에렌, 전쟁 망치 거인+진격의 거인+시조 거인 보유."
+              data-img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfi0viEG5L17ENyV_pAB9EouZsNJvy2RgjJg&s"
+            >
+              <img
+                class="roadmap-img"
+                src="https://i.namu.wiki/i/xA5DTQ6k0zSz0Bq5umI2DHVOO-lBpYfjWgdJmJLRHRX-96KkCzFW_9wSruINK0WBeek3kXpBF4xmTs5Ms5f-yg.webp"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content"><h3>리베리오 축제 습격</h3></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="era-5" class="era-panel">
+          <div class="roadmap-container">
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="수인 거인 편 / 지하 수감 (854말~855년)"
+              data-desc="에렌이 군부에 독단 행동으로 수감. 예거파(에렌 지지 세력)와 기존 조사병단 갈등. 마레 조사병단이 파라디로 침투."
+              data-img="https://image.fmkorea.com/files/attach/new3/20230614/486263/4950117082/5868186702/379aa067e3f20e1fbfd016a44677187f.png"
+            >
+              <img
+                class="roadmap-img"
+                src="https://i.namu.wiki/i/ALr9ivNg4ANsYQSJlgCwcZR5d7DJS549OPmMTUWQO9pGEhxzFyCHqgx1ikT5dUcybcf-GOAUz4rXaR9-wZnBrA.webp"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content">
+                <h3>마레 파라디 침투 및 수감</h3>
+              </div>
+            </div>
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="지크와 에렌 접촉 / 각성 (854말~855년)"
+              data-desc="지크와 에렌이 접촉해 기억의 세계(유미르의 길)로 진입. 2,000년 동안 홀로 길의 세계에 갇혀 있던 시조 유미르의 의지 확인. 에렌, 지진 거인(더 럼블링) 발동."
+              data-img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQki8EcazcykoR2GYpvensN4fMLNhAuRWUBJw&s"
+            >
+              <img
+                class="roadmap-img"
+                src="https://i.namu.wiki/i/k4B3VCXWY_hNsIzwdfqmF7Ivk5jmUeilEBPFyrEon-UNJintiXTXbdZxefFtVKm4TJ9efXh9KHdHjq0jbFsvhQ.webp"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content"><h3>시조 거인의 힘 각성</h3></div>
+            </div>
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="지진 거인(더 럼블링) & 최후의 전투 (855~857) ⭐"
+              data-desc="에렌이 수백만 초대형 거인을 이끌어 벽 밖 세계를 짓밟기 시작. 마레를 포함한 세계 초토화. 가비, 팔코, 아니, 라이너 등 구 적군과 조사병단 생존자들이 연합하여 파라디에서 최후의 결전을 벌임."
+              data-img="https://i.namu.wiki/i/nVe2Wv5fY4Csf_aO5agMxw4Nsed6nl_LZ75MWhRn132U0jWXcQM266JFc5XdvQWe_VlxW9BqS1bEUL8rB0vv2A.webp"
+            >
+              <img
+                class="roadmap-img"
+                src="https://i.namu.wiki/i/RO6JVy_P-PKg8_f87qckRd-XyUk5ZAuWWVBC0XQyb4hcOiEO80askx1KVAM65Yc4y88kMmqTBG4uzVm6G4Ht3Q.webp"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content">
+                <h3 style="color: #ff4d4d">더 럼블링 & 최후 전투 ⭐</h3>
+              </div>
+            </div>
+            <div
+              class="roadmap-item"
+              onclick="openModal(this)"
+              data-title="에렌의 최후 & 전후 에필로그"
+              data-desc="미카사가 에렌의 목을 베어 지진 거인 종식. 유미르의 저주가 풀리며 모든 거인의 힘이 소멸. 지진 거인이 세계 인구의 약 80% 학살.\n\n전후: 세계 각국과 평화협상 시도. 아르민은 평화 협상 대표가 되고 미카사는 에렌의 묘를 지킴. 결말부에서 역사와 전쟁은 반복될 것임을 암시."
+              data-img="https://i.namu.wiki/i/B2Mr60MmmjxYTqcfvbvumzXCdgR3sxlMRhVeIWX7uDqrnrQEMntROLYgiO5j_d5mYHdf4dwZ8OwC0Tgjqqs2tw.webp"
+            >
+              <img
+                class="roadmap-img"
+                src="https://blog.kakaocdn.net/dna/DVQKa/btsAEnAtxSk/AAAAAAAAAAAAAAAAAAAAAEYaRfjVNuEPfTnH9_KIVv6vLZXA6AUPunaSYZMcC5hh/img.jpg?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1772290799&allow_ip=&allow_referer=&signature=ry93ITAopHswZiNTGxkImEK%2BxCY%3D"
+              />
+              <div class="roadmap-dot"></div>
+              <div class="roadmap-content">
+                <h3>에렌의 최후와 세계의 결말</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="historyModal"
+      class="history-modal-overlay"
+      onclick="closeModal(event)"
+    >
+      <div class="history-modal-content" onclick="event.stopPropagation()">
+        <img id="modalImg" class="modal-img" src="" alt="모달 이미지" />
+        <div class="modal-text-box">
+          <h2 id="modalTitle">사건 제목</h2>
+          <p id="modalDesc">사건 상세 설명</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal(event)">
+          닫기 (Close)
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // 1. 탭 전환 기능
+      function showEra(eraId, btnElement) {
+        document
+          .querySelectorAll(".era-panel")
+          .forEach((panel) => panel.classList.remove("active"));
+        document
+          .querySelectorAll(".era-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        document.getElementById(eraId).classList.add("active");
+        btnElement.classList.add("active");
+      }
+
+      // 2. 모달 기능
+      function openModal(element) {
+        document.getElementById("modalTitle").innerText =
+          element.getAttribute("data-title");
+        document.getElementById("modalDesc").innerText =
+          element.getAttribute("data-desc");
+        document.getElementById("modalImg").src =
+          element.getAttribute("data-img");
+        document.getElementById("historyModal").classList.add("show");
+      }
+      function closeModal(e) {
+        if (e) e.preventDefault();
+        document.getElementById("historyModal").classList.remove("show");
+      }
+
+      // --- 3. [최종본] 시네마틱 모래 폭풍(Sand Storm) 애니메이션 엔진 ---
+      const canvas = document.getElementById("particle-canvas");
+      const ctx = canvas.getContext("2d");
+      let particles = [];
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 1.5 + 0.5; // 알갱이 굵기
+
+          // 💡 방향 수정: 왼쪽에서 오른쪽으로 강하게 날림 (+)
+          this.speedX = Math.random() * 1 + 1; // 가로 속도 (매우 빠름)
+          this.speedY = Math.random() * 2 - 1; // 위아래로 미세하게 흩날림
+
+          this.opacity = Math.random() * 0.5 + 0.1;
+          // 💡 색상 수정: 진격의 거인 황무지에 어울리는 황갈색(모래색)
+          this.color = `rgba(194, 178, 128, ${this.opacity})`;
+        }
+
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+
+          // 💡 화면 오른쪽 끝으로 나가면 다시 왼쪽 끝에서 등장
+          if (this.x > canvas.width) {
+            this.x = -50;
+            this.y = Math.random() * canvas.height;
+          }
+        }
+
+        draw() {
+          ctx.beginPath();
+          // 💡 비 코드의 선(Line) 방식을 유지하여 '날카로운 모래바람' 표현
+          ctx.moveTo(this.x, this.y);
+          ctx.lineTo(this.x + this.speedX * 0.8, this.y + this.speedY * 0.8);
+          ctx.strokeStyle = this.color;
+          ctx.lineWidth = this.size;
+          ctx.lineCap = "round";
+          ctx.stroke();
+        }
+      }
+
+      function initParticles() {
+        particles = [];
+        // 💡 폭풍 느낌을 위해 개수를 충분히 배치 (200개)
+        for (let i = 0; i < 5000; i++) {
+          particles.push(new Particle());
+        }
+      }
+
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((p) => {
+          p.update();
+          p.draw();
+        });
+        requestAnimationFrame(animateParticles);
+      }
+
+      initParticles();
+      animateParticles();
+
+      /* 목록 복귀 */
+      function goBack() {
+        renderList();
+        detailView.style.display = "none";
+        listView.style.display = "block";
+
+        // :bulb: 다시 목록으로 오면 BGM 볼륨 원래대로 복구
+        const bgm = document.getElementById("bgm");
+        if (bgm) bgm.volume = 1.0;
+      }
+      // BGM 설정
+      window.addEventListener("DOMContentLoaded", () => {
+        const bgm = document.getElementById("bgm");
+        const musicBtn = document.getElementById("music-btn");
+
+        let isPlaying = false;
+
+        musicBtn.addEventListener("click", () => {
+          if (!isPlaying) {
+            bgm
+              .play()
+              .then(() => {
+                musicBtn.textContent = "🔇 BGM OFF";
+                isPlaying = true;
+              })
+              .catch((err) => {
+                console.log("재생 실패:", err);
+              });
+          } else {
+            bgm.pause();
+            musicBtn.textContent = "🔊 BGM ON";
+            isPlaying = false;
+          }
+        });
+      });
+    </script>
+    <audio id="bgm" loop>
+      <source src="../music/callyourname.mp3" type="audio/mpeg" />
+      브라우저가 오디오를 지원하지 않습니다.
+    </audio>
+
+    <div class="music-controls">
+      <button id="music-btn" onclick="toggleMusic()">🎵 BGM 재생</button>
+    </div>
+  </body>
+</html>

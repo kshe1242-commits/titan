@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>주둔병단</title>
+    <style>
+      body {
+        background-color: #000;
+        color: #fff;
+        font-family: "Apple SD Gothic Neo", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .detail-container {
+        width: 80%;
+        max-width: 900px;
+        display: flex;
+        gap: 50px;
+        border: 1px solid #004a94;
+        padding: 40px;
+        background: #111;
+      }
+      img {
+        width: 400px;
+        height: auto;
+        border: 2px solid #333;
+      }
+      .info h1 {
+        font-size: 3rem;
+        color: #004a94;
+        margin-top: 0;
+      }
+      .info p {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        color: #ccc;
+      }
+      .convert {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: 1px solid #004a94;
+        color: #fff;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+      .convert:hover {
+        background: #004a94;
+      }
+      .back-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: 1px solid #004a94;
+        color: #fff;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+      .back-btn:hover {
+        background: #004a94;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="detail-container" onclick="opendetail('joodun.html')">
+      <img
+        src="https://i.namu.wiki/i/MFpm1ge-bix02pCknV1yN4iMEbp4oRnpkJzlmtxTCXtgK2tac2Sal0_2ZI-o0IesGOmEaVLGy-5mojfi_BcMMg.webp"
+        alt="주둔병단"
+      />
+      <div class="info">
+        <h1>주둔병단</h1>
+        <p><strong>제목 :</strong> 주둔병단</p>
+        <p><strong>소속원 :</strong> 남방사령관 도트 픽시스/ 사단장 로보프</p>
+        <p>
+          <strong>상세설명:</strong> 방벽 내 도시와 마을의 치안 유지/ 세계의
+          위협으로부터 파라디 섬 구제
+        </p>
+        <a
+          href="../joodun/titan.html"
+          class="convert"
+          onclick="window.convert()"
+          >주둔병단으로 이동</a
+        >
+        <a href="#" class="back-btn" onclick="window.close()">창 닫기</a>
+      </div>
+    </div>
+  </body>
+</html>

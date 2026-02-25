@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>주둔병단</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="main-nav">
+      <div class="logo">
+        <a href="../main/animation.html">ATTACK ON TITAN</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="../main/animation.html">메인</a></li>
+        <li><a href="../josa/scout.html">조사병단</a></li>
+        <li><a href="../hunbyeong/hunbyeong.html">헌병단</a></li>
+        <li>
+          <a href="../joodun/titan.html" class="active" onclick="goBack()"
+            >주둔병단</a
+          >
+        </li>
+        <li>
+          <a href="../titan/titan.html">아홉거인</a>
+        </li>
+      </ul>
+    </nav>
+
+    <header class="page-header" id="page-header">
+      <div class="title-wrapper">
+        <img
+          src="https://i.namu.wiki/i/C94RdgW7AX23llOkOzS0mU9vw0jzuvR8fUPzHWE0-69a43FsXERc2wA9pq71VFFlEd8al1dOpMS7peQYs2viDcNhfO4g8i8SPGA1W3Q_Pua2W3knrw1tgw8eUVgZUh8r1KTxLj4E-dSkocmRSR1xDw.webp"
+          alt="주둔병단 로고 좌"
+          class="header-logo"
+        />
+        <h1>주둔 병단</h1>
+        <img
+          src="https://i.namu.wiki/i/C94RdgW7AX23llOkOzS0mU9vw0jzuvR8fUPzHWE0-69a43FsXERc2wA9pq71VFFlEd8al1dOpMS7peQYs2viDcNhfO4g8i8SPGA1W3Q_Pua2W3knrw1tgw8eUVgZUh8r1KTxLj4E-dSkocmRSR1xDw.webp"
+          alt="주둔병단 로고 우"
+          class="header-logo"
+        />
+      </div>
+      <p id="typing-text" class="typing"></p>
+    </header>
+
+    <main id="list-view">
+      <div class="character-grid" id="character-grid"></div>
+    </main>
+
+    <section id="detail-view">
+      <button class="back-btn" onclick="goBack()">← 목록으로</button>
+
+      <div class="detail-layout">
+        <aside class="character-sidebar" id="character-sidebar"></aside>
+
+        <div class="illustration-area">
+          <div class="slider">
+            <img class="slide active" />
+            <img class="slide" />
+            <img class="slide" />
+
+            <button class="prev">&#10094;</button>
+            <button class="next">&#10095;</button>
+          </div>
+
+          <div class="thumbnail-container" id="thumbnail-container"></div>
+        </div>
+
+        <div class="info-area">
+          <h1 id="detail-name"></h1>
+
+          <div class="video-box">
+            <video
+              id="detail-video"
+              muted
+              loop
+              playsinline
+              controls
+              preload="none"
+            ></video>
+            <img
+              id="detail-gif"
+              src=""
+              alt="character gif"
+              style="
+                display: none;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+              "
+            />
+          </div>
+
+          <div class="info-box">
+            <h2>신상정보</h2>
+            <p id="detail-profile"></p>
+          </div>
+
+          <div class="story-box">
+            <h2>줄거리</h2>
+            <p id="detail-story"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div
+      id="local-top-badge"
+      style="
+        position: fixed;
+        bottom: 40px;
+        right: 0;
+        background: rgba(0, 0, 0, 0.85);
+        border: 2px solid #ffd700;
+        border-right: none;
+        border-radius: 12px 0 0 12px;
+        padding: 8px 12px;
+        display: none;
+        z-index: 9999;
+        text-align: center;
+        cursor: default;
+        box-shadow: -3px 3px 10px rgba(255, 215, 0, 0.3);
+        transition: 0.3s;
+      "
+      onmouseover="this.style.transform = 'translateX(-5px)'"
+      onmouseout="this.style.transform = 'translateX(0)'"
+    >
+      <div
+        style="
+          color: #ffd700;
+          font-weight: bold;
+          font-size: 0.65rem;
+          margin-bottom: 4px;
+        "
+      >
+        🔥 현재 1위
+      </div>
+      <img
+        id="local-top-img"
+        src=""
+        style="
+          width: 40px;
+          height: 40px;
+          object-fit: cover;
+          border-radius: 50%;
+          border: 1.5px solid #fff;
+          margin-bottom: 2px;
+        "
+      />
+      <div
+        id="local-top-name"
+        style="
+          color: #fff;
+          font-size: 0.8rem;
+          font-weight: bold;
+          white-space: nowrap;
+        "
+      ></div>
+      <div id="local-top-views" style="color: #aaa; font-size: 0.65rem"></div>
+    </div>
+
+    <script src="../view.js"></script>
+    <script src="script.js"></script>
+    <audio id="bgm" loop>
+      <source src="../music/akumanoko.mp3" type="audio/mpeg" />
+      브라우저가 오디오를 지원하지 않습니다.
+    </audio>
+
+    <div class="music-controls">
+      <button id="music-btn" onclick="toggleMusic()">🎵 BGM 재생</button>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <title>진격의 거인 Special</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body,
+      html {
+        height: 100%;
+        font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+        background: #000;
+        color: #fff;
+        scroll-behavior: smooth;
+      }
+
+      /* 내비게이션 */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 80px;
+        background: rgba(0, 0, 0, 0.85);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 80px;
+        z-index: 1000;
+        border-bottom: 2px solid #004a94;
+      }
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -1px;
+      }
+      .logo span {
+        color: #004a94;
+      }
+      .logo a {
+        text-decoration: none;
+        color: #fff;
+        display: inline-block;
+      }
+      .logo a:hover {
+        color: #004a94;
+      }
+      nav ul {
+        display: flex;
+        list-style: none;
+      }
+      nav ul li {
+        margin-left: 40px;
+      }
+      nav ul li a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: 0.3s;
+      }
+      nav ul li a:hover {
+        color: #004a94;
+      }
+
+      /* 메인 비디오 배너 (복구 완료!) */
+      .video-banner {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .video-background img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        opacity: 0.7;
+      }
+      .overlay-text {
+        position: relative;
+        text-align: center;
+        z-index: 10;
+      }
+      .overlay-text h1 {
+        font-size: 6rem;
+        font-family: "Cinzel", serif;
+        font-weight: 700;
+        letter-spacing: 20px;
+        margin-bottom: 15px;
+        text-shadow: 4px 4px 15px rgba(0, 0, 0, 0.9);
+      }
+      .overlay-text p {
+        font-size: 1.4rem;
+        font-weight: 300;
+        color: #ddd;
+        letter-spacing: 3px;
+      }
+
+      /* 섹션 공통 */
+      section {
+        padding: 120px 10% 80px;
+        line-height: 1.6;
+      }
+      h2 {
+        font-size: 2.5rem;
+        border-left: 5px solid #004a94;
+        padding-left: 20px;
+        margin-bottom: 50px;
+      }
+
+      /* ===== 병과 카드 리스트 및 애니메이션 ===== */
+      .troop-list {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+      }
+
+      /* 💡 고정된 틀(Slot) 애니메이션 설정 */
+      .troop-slot {
+        opacity: 1;
+        transform: translateY(0);
+        transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); /* 고급스러운 감속 효과 */
+      }
+      /* 순위가 바뀔 때 스르륵 사라지는 효과 클래스 */
+      .troop-slot.changing {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      .troop-card {
+        display: flex;
+        align-items: stretch;
+        background: #111;
+        border: 1px solid #222;
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .troop-card:hover {
+        border-color: #004a94;
+        box-shadow: 0 8px 30px rgba(0, 74, 148, 0.3);
+        transform: translateY(-3px);
+      }
+
+      /* 순위 스트라이프 */
+      .rank-stripe {
+        width: 65px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+      }
+      .rank-stripe .rank-emoji {
+        font-size: 1.8rem;
+      }
+      .rank-stripe .rank-num {
+        font-size: 0.72rem;
+        letter-spacing: 1px;
+        font-weight: bold;
+      }
+      .rank-1 {
+        background: linear-gradient(180deg, #b8860b, #ffd700);
+        color: #000;
+      }
+      .rank-2 {
+        background: linear-gradient(180deg, #777, #c0c0c0);
+        color: #000;
+      }
+      .rank-3 {
+        background: linear-gradient(180deg, #7a3b0e, #cd7f32);
+        color: #fff;
+      }
+      .rank-4 {
+        background: #1a1a1a;
+        color: #555;
+        border-right: 1px solid #2a2a2a;
+      }
+
+      /* 병과 이미지 */
+      .troop-img {
+        width: 200px;
+        flex-shrink: 0;
+        overflow: hidden;
+      }
+      .troop-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(40%);
+        transition: 0.4s;
+      }
+      .troop-card:hover .troop-img img {
+        filter: grayscale(0%);
+        transform: scale(1.05);
+      }
+
+      /* 병과 텍스트 */
+      .troop-info {
+        flex: 1;
+        padding: 28px 35px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+      }
+      .troop-info h3 {
+        font-size: 1.9rem;
+        letter-spacing: 3px;
+        color: #fff;
+      }
+      .troop-info p {
+        font-size: 0.95rem;
+        color: #999;
+      }
+      .views-badge {
+        display: inline-block;
+        width: fit-content;
+        margin-top: 6px;
+        padding: 6px 14px;
+        background: rgba(0, 74, 148, 0.15);
+        border: 1px solid #004a94;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        color: #5aabff;
+        font-weight: bold;
+      }
+
+      /* 오른쪽 최고 인기 캐릭터 패널 */
+      .popular-panel {
+        width: 220px;
+        flex-shrink: 0;
+        border-left: 1px solid #222;
+        background: rgba(255, 255, 255, 0.02);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 15px;
+        gap: 10px;
+        text-align: center;
+      }
+      .popular-label {
+        font-size: 0.7rem;
+        color: #ffd700;
+        letter-spacing: 2px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #2a2a2a;
+        width: 100%;
+      }
+      .popular-char-img {
+        width: 85px;
+        height: 85px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #004a94;
+        box-shadow: 0 0 18px rgba(0, 74, 148, 0.5);
+      }
+      .popular-char-name {
+        font-size: 0.95rem;
+        font-weight: bold;
+        color: #fff;
+      }
+      .popular-char-views {
+        font-size: 0.75rem;
+        color: #aaa;
+      }
+      .no-data {
+        font-size: 0.8rem;
+        color: #555;
+        line-height: 1.7;
+      }
+
+      /* ===== 세계관 (복구 완료!) ===== */
+      .World-views-item {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px 15px;
+        border-bottom: 1px solid #222;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .World-views-item:hover {
+        background: #111;
+        border-left: 4px solid #004a94;
+        padding-left: 11px;
+      }
+      .year {
+        width: 150px;
+        font-weight: bold;
+        color: #004a94;
+        font-size: 1.4rem;
+      }
+      .photo-container {
+        display: flex;
+        gap: 15px;
+        margin-top: 40px;
+      }
+      .photo-container img {
+        width: calc(50% - 7px);
+        height: 250px;
+        object-fit: cover;
+        border: 1px solid #333;
+        border-radius: 6px;
+      }
+      .music-controls {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 1000;
+      }
+
+      #music-btn {
+        padding: 10px 20px;
+        background: rgba(0, 0, 0, 0.7);
+        color: bisque;
+        border: 1px solid bisque;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      #music-btn:hover {
+        background: bisque;
+        color: black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div
+      id="global-top-badge"
+      style="
+        position: fixed;
+        bottom: 40px;
+        right: 0; /* 💡 오른쪽 여백을 0으로 줘서 벽에 완전히 밀착! */
+        background: rgba(0, 0, 0, 0.85);
+        border: 2px solid #ffd700;
+        border-right: none; /* 💡 오른쪽 테두리를 지워서 벽에서 튀어나온 느낌 주기 */
+        border-radius: 12px 0 0 12px; /* 💡 왼쪽 위/아래만 둥글게 깎기 */
+        padding: 8px 12px; /* 💡 안쪽 여백 최소화 */
+        display: none;
+        z-index: 9999;
+        text-align: center;
+        cursor: pointer;
+        box-shadow: -3px 3px 10px rgba(255, 215, 0, 0.3); /* 💡 그림자를 왼쪽으로 빼기 */
+        transition: 0.3s;
+      "
+      onmouseover="this.style.transform = 'translateX(-5px)'"
+      onmouseout="this.style.transform = 'translateX(0)'"
+    >
+      <div
+        style="
+          color: #ffd700;
+          font-weight: bold;
+          font-size: 0.65rem;
+          margin-bottom: 4px;
+        "
+      >
+        🔥 통합 1위
+      </div>
+      <img
+        id="top-char-img"
+        src=""
+        style="
+          width: 40px;
+          height: 40px;
+          object-fit: cover;
+          border-radius: 50%;
+          border: 1.5px solid #fff;
+          margin-bottom: 2px;
+        "
+      />
+      <div
+        id="top-char-name"
+        style="
+          color: #fff;
+          font-size: 0.8rem;
+          font-weight: bold;
+          white-space: nowrap;
+        "
+      ></div>
+      <div id="top-char-views" style="color: #aaa; font-size: 0.65rem"></div>
+    </div>
+    <nav>
+      <div class="logo">
+        <a href="#">Attack on titan Special<span></span></a>
+      </div>
+      <ul>
+        <li><a href="#troop-mark">병과 순위</a></li>
+        <li><a href="./world.html">세계관</a></li>
+      </ul>
+    </nav>
+
+    <div class="video-banner">
+      <div class="video-background">
+        <img
+          src="https://blog.kakaocdn.net/dna/Sejgu/btr4tPBuS82/AAAAAAAAAAAAAAAAAAAAAO-__lUIYMORA7_zw8pkgePtVkRZFfXxEd3bRNZE-ahS/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1772290799&allow_ip=&allow_referer=&signature=Os7OKIDEpjX%2BiUj3eLfQDZ4k3TQ%3D"
+        />
+      </div>
+      <div class="overlay-text">
+        <h1>ATTACK ON TAITAN</h1>
+        <p>익명제보: 거인 출몰 및 내부 배신자 신고</p>
+      </div>
+    </div>
+
+    <section id="troop-mark">
+      <h2>실시간 병과 전투력(조회수) 랭킹</h2>
+
+      <div class="troop-list" id="troop-list">
+        <div class="troop-slot" id="slot-1" data-troop=""></div>
+        <div class="troop-slot" id="slot-2" data-troop=""></div>
+        <div class="troop-slot" id="slot-3" data-troop=""></div>
+        <div class="troop-slot" id="slot-4" data-troop=""></div>
+      </div>
+    </section>
+
+    <footer
+      style="
+        background: #000;
+        padding: 40px;
+        text-align: center;
+        border-top: 1px solid #222;
+        font-size: 0.9rem;
+        color: #666;
+      "
+    >
+      이 사이트는 조사병단 정보공개법을 준수합니다. 본부장: Elvin Smith
+    </footer>
+
+    <script src="../view.js"></script>
+
+    <script>
+      const TROOPS = [
+        {
+          name: "진격의 거인",
+          storageKey: "titanViews",
+          detailUrl: "../거인/titan.html", // 파일경로 주의!
+          img: "../titanimg/ASD.jpg",
+          desc: "아홉 거인의 힘을 다루는 자들",
+        },
+        {
+          name: "조사병단",
+          storageKey: "scoutViews",
+          detailUrl: "../josa/scout.html",
+          img: "https://i.namu.wiki/i/NLo4BSB9Wh6hr0swzcLdv5YZ5PvA3gbG5y-Knjv6r3A6ddmllw09NROTkaYmb_NNwEh0qI20QQiVu7u15N5hKMPPOtQL_6KIdMd7BSKmHXbADtvBYJ5Daf3o2PLG-jnSo4BsCKR8Pb8JhLleE7tLkw.webp",
+          desc: "벽 밖의 상황을 조사하고 인류의 자유를 되찾는 부대",
+        },
+        {
+          name: "헌병단",
+          storageKey: "militaryViews",
+          detailUrl: "../헌병/헌병단.html",
+          img: "https://i.namu.wiki/i/aacs6oJMHR918ZcP5UToLwtFU7PaCKbeQ-KM-A_tLr6UKZqmR6-9vt3hXXmi_Mp9BU0paxyNeDFr_oOTfpLbXrgRyU2-JcOBpB4HnXUD0vZMirujocj5ZLUbr5WIsoISlh_nnVvsPYKNgtoU-OTlnw.webp",
+          desc: "국왕을 보위하는 벽 안의 엘리트 친위대",
+        },
+        {
+          name: "주둔병단",
+          storageKey: "garrisonViews",
+          detailUrl: "../주둔/titan.html",
+          img: "https://i.namu.wiki/i/C94RdgW7AX23llOkOzS0mU9vw0jzuvR8fUPzHWE0-69a43FsXERc2wA9pq71VFFlEd8al1dOpMS7peQYs2viDcNhfO4g8i8SPGA1W3Q_Pua2W3knrw1tgw8eUVgZUh8r1KTxLj4E-dSkocmRSR1xDw.webp",
+          desc: "방벽 내 도시와 마을의 치안 및 방어를 담당",
+        },
+      ];
+
+      const RANKS = [
+        { emoji: "🥇", label: "1위", cls: "rank-1" },
+        { emoji: "🥈", label: "2위", cls: "rank-2" },
+        { emoji: "🥉", label: "3위", cls: "rank-3" },
+        { emoji: "4", label: "4위", cls: "rank-4" },
+      ];
+
+      function opendetail(url) {
+        window.open(url, "_self");
+      }
+      function opendetail2(url) {
+        window.open(url, "_blank");
+      }
+
+      // 💡 [핵심 엔진] 랭킹을 계산하고 애니메이션과 함께 그려주는 함수
+      function applyRankings() {
+        // 1. 각 병과별 [총합 조회수]와 [부대 내 1위 캐릭터] 데이터를 최신화
+        TROOPS.forEach((t) => {
+          t.totalViews = ViewManager.getTroopTotalViews(t.storageKey);
+          t.topChar = ViewManager.getTroopTop1(t.storageKey);
+        });
+
+        // 2. 총합 조회수(totalViews)를 기준으로 1등부터 4등까지 내림차순 정렬
+        const sortedTroops = [...TROOPS].sort(
+          (a, b) => b.totalViews - a.totalViews,
+        );
+
+        // 3. 고정된 1~4위 틀(Slot)에 데이터 꽂아넣기
+        sortedTroops.forEach((t, i) => {
+          const slot = document.getElementById(`slot-${i + 1}`);
+          const currentTroopName = slot.getAttribute("data-troop"); // 현재 이 자리에 있는 부대 이름
+
+          // 만약 순위가 바뀌어서 새로운 부대가 들어와야 한다면? (애니메이션 발동!)
+          if (currentTroopName !== t.name) {
+            slot.classList.add("changing"); // 스르륵 아래로 사라짐
+
+            setTimeout(() => {
+              renderSlotHTML(slot, t, i); // 안의 내용물 교체
+              slot.setAttribute("data-troop", t.name); // 명찰 교체
+              slot.classList.remove("changing"); // 다시 스르륵 떠오름
+            }, 600); // CSS의 0.6초와 시간 맞춤
+          } else {
+            // 순위 변동 없이 클릭수만 올랐다면 애니메이션 없이 숫자만 조용히 바꿈
+            renderSlotHTML(slot, t, i);
+          }
+        });
+      }
+
+      // 카드 안의 HTML 구조를 그려주는 함수
+      function renderSlotHTML(slot, t, index) {
+        const r = RANKS[index];
+
+        const panelHTML = t.topChar
+          ? `<div class="popular-panel">
+               <div class="popular-label">⭐ 부대 내 에이스</div>
+               <img class="popular-char-img" src="${t.topChar.img}" alt="${t.topChar.name}">
+               <div class="popular-char-name">${t.topChar.name}</div>
+               <div class="popular-char-views">조회수 ${t.topChar.count}회</div>
+             </div>`
+          : `<div class="popular-panel">
+               <div class="popular-label">⭐ 부대 내 에이스</div>
+               <div class="no-data">아직 조회된<br>기록이<br>없습니다.</div>
+             </div>`;
+
+        // 💡 총합 전투력 표시!
+        const viewsBadge = `<span class="views-badge">전체 부대원 합산 전투력: ${t.totalViews}</span>`;
+
+        slot.innerHTML = `
+          <div class="troop-card" onclick="opendetail('${t.detailUrl}')">
+            <div class="rank-stripe ${r.cls}">
+              <span class="rank-emoji">${r.emoji}</span>
+              <span class="rank-num">${r.label}</span>
+            </div>
+            <div class="troop-img"><img src="${t.img}" alt="${t.name}"></div>
+            <div class="troop-info">
+              <h3>${t.name}</h3>
+              <p>${t.desc}</p>
+              ${viewsBadge}
+            </div>
+            ${panelHTML}
+          </div>
+        `;
+      }
+
+      // =========================================================
+      // 💡 [수정됨] 스크롤 감지 및 통합 1위 뱃지 표시 로직
+      // =========================================================
+
+      let hasGlobalTopData = false; // 1위 데이터가 존재하는지 기억해두는 변수
+
+      function renderGlobalBadge() {
+        const topChar = ViewManager.getGlobalTop1([
+          "militaryViews",
+          "scoutViews",
+          "garrisonViews",
+        ]);
+        if (topChar) {
+          document.getElementById("top-char-img").src = topChar.img;
+          document.getElementById("top-char-name").innerText = topChar.name;
+          document.getElementById("top-char-views").innerText =
+            `총 조회수: ${topChar.count}회`;
+
+          const badge = document.getElementById("global-top-badge");
+          badge.onclick = () => window.open(topChar.url, "_blank");
+
+          hasGlobalTopData = true; // 데이터가 완벽하게 준비됨!
+
+          // 데이터가 갱신될 때마다 현재 스크롤 위치를 한 번 확인합니다.
+          checkScrollPosition();
+        }
+      }
+
+      // 💡 [핵심] 스크롤 위치를 계산해서 뱃지를 숨기거나 보여주는 함수
+      function checkScrollPosition() {
+        const badge = document.getElementById("global-top-badge");
+
+        if (hasGlobalTopData) {
+          // window.innerHeight : 현재 브라우저 창의 높이 (즉, 비디오 배너의 높이)
+          // 스크롤을 비디오 배너 높이의 절반(0.5) 이상 내렸을 때만 뱃지를 띄웁니다!
+          if (window.scrollY > window.innerHeight * 0.5) {
+            badge.style.display = "block";
+          } else {
+            badge.style.display = "none"; // 맨 위로 올라가면 다시 숨김!
+          }
+        }
+      }
+
+      // 💡 마우스 휠을 굴릴 때마다 위치를 감시합니다.
+      window.addEventListener("scroll", checkScrollPosition);
+
+      // =========================================================
+      // 실시간 엔진 (이 부분은 기존과 동일합니다)
+      // =========================================================
+      window.addEventListener("load", () => {
+        applyRankings();
+        renderGlobalBadge();
+
+        setInterval(() => {
+          applyRankings();
+          renderGlobalBadge();
+        }, 1500);
+      });
+      // 💡 [실시간 감지 엔진] 페이지가 열리면 최초 1번 실행하고, 이후 1.5초마다 백그라운드 스캔!
+      window.addEventListener("load", () => {
+        applyRankings();
+        renderGlobalBadge();
+
+        setInterval(() => {
+          applyRankings();
+          renderGlobalBadge();
+        }, 1500); // 1.5초마다 순위 변동 감지 (F5 누를 필요 없음!)
+      });
+      /* 목록 복귀 */
+      function goBack() {
+        renderList();
+        detailView.style.display = "none";
+        listView.style.display = "block";
+
+        // :bulb: 다시 목록으로 오면 BGM 볼륨 원래대로 복구
+        const bgm = document.getElementById("bgm");
+        if (bgm) bgm.volume = 1.0;
+      }
+      // BGM 설정
+      window.addEventListener("DOMContentLoaded", () => {
+        const bgm = document.getElementById("bgm");
+        const musicBtn = document.getElementById("music-btn");
+
+        let isPlaying = false;
+
+        musicBtn.addEventListener("click", () => {
+          if (!isPlaying) {
+            bgm
+              .play()
+              .then(() => {
+                musicBtn.textContent = "🔇 BGM OFF";
+                isPlaying = true;
+              })
+              .catch((err) => {
+                console.log("재생 실패:", err);
+              });
+          } else {
+            bgm.pause();
+            musicBtn.textContent = "🔊 BGM ON";
+            isPlaying = false;
+          }
+        });
+      });
+    </script>
+    <audio id="bgm" loop>
+      <source src="../music/sim.mp3" type="audio/mpeg" />
+      브라우저가 오디오를 지원하지 않습니다.
+    </audio>
+
+    <div class="music-controls">
+      <button id="music-btn" onclick="toggleMusic()">🎵 BGM 재생</button>
+    </div>
+  </body>
+</html>

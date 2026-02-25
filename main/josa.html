@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>캐릭터 상세 정보 - 리바이 아커만</title>
+    <style>
+      body {
+        background-color: #000;
+        color: #fff;
+        font-family: "Apple SD Gothic Neo", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .detail-container {
+        width: 80%;
+        max-width: 900px;
+        display: flex;
+        gap: 50px;
+        border: 1px solid #004a94;
+        padding: 40px;
+        background: #111;
+      }
+      img {
+        width: 400px;
+        height: auto;
+        border: 2px solid #333;
+      }
+      .info h1 {
+        font-size: 3rem;
+        color: #004a94;
+        margin-top: 0;
+      }
+      .info p {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        color: #ccc;
+      }
+      .convert {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: 1px solid #004a94;
+        color: #fff;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+      .convert.hover {
+        background: #004a94;
+      }
+      .back-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: 1px solid #004a94;
+        color: #fff;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+      .back-btn:hover {
+        background: #004a94;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="detail-container" onclick="opendetail('josa.html')">
+      <img
+        src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20240531_166%2F1717135006190ffnzh_JPEG%2F118270894879134347_1017498176.jpg&type=sc960_832"
+        alt="조사병단"
+      />
+      <div class="info">
+        <h1>조사병단</h1>
+        <p><strong>제목:</strong> 조사병단</p>
+        <p>
+          <strong>소속원:</strong> 단장 엘빈 스미스/ 병사장 리바이 아커만/
+          분대장 한지 조에/ 분대장 미케 자카리아스/ 상급 간부 나나바/ 반장 디타
+          네스 외 다수
+        </p>
+        <p>
+          <strong>상세설명:</strong> 진격의 거인에서 나오는 가공의 군사
+          조직이다. 진격의 거인 작품 내에서 벽 밖의 상황을 조사하는 임무를
+          수행한다.
+        </p>
+        <a href="../josa/scout.html" class="convert">조사병단으로 이동</a>
+        <a href="#" class="back-btn" onclick="window.close()">창 닫기</a>
+      </div>
+    </div>
+  </body>
+</html>
