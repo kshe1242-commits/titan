@@ -217,7 +217,7 @@ function openDetail(id) {
     id,
     c.name,
     c.images[0],
-    "../거인/titan.html",
+    "../titan/titan.html",
   );
 
   listView.style.display = "none";
@@ -259,7 +259,7 @@ function changeDetail(id) {
     id,
     c.name,
     c.images[0],
-    "../거인/titan.html",
+    "../titan/titan.html",
   );
 
   renderDetail(id);
