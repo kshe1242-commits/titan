@@ -16,7 +16,7 @@ const characters = [
     id: 1,
     name: "에렌 예거",
     images: [
-      "/teamtitan/titanimg/eren.png",
+      "/titan/titanimg/eren.png",
       "https://i.namu.wiki/i/VGTqQZHpViQlycP-QXKQFEUk1lZnapLbBH1pLPnnwqn0nA8sq7Huk6ypgH78mLykXAgffJut8sjpRIAEPC39tGBedO0J5ZFdUIJvCmJWR2pulSK5ccZepYkRNTwYCagQQnVrlCnh5aX47oidundUKg.webp",
       "https://i.namu.wiki/i/TqP_HGMvLPdEK-5rSBkoilJwOHIVeQu3sV_CRVMVwI1uNVge3-qo4UOe8LgH-_0T6E7gwNXeDWnhbwe4qqgZcoPaOB7Vg6ZN-tdlxZNtwm9hAfUupXaiM6FV1vPyb6SWdyUFDvNzH0L1Di0QOR1bGw.webp",
     ],
