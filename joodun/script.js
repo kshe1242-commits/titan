@@ -6,9 +6,9 @@ const characters = [
     id: 1,
     name: "도트 픽시스",
     images: [
-      "../주둔/img/pixis_1.webp",
-      "../주둔/img/pixis_2.webp",
-      "../주둔/img/pixis_3.jpg",
+      "/titan/joodun/img/pixis_1.webp",
+      "/titan/joodun/img/pixis_2.webp",
+      "/titan/joodun/img/pixis_3.jpg",
     ],
     video: "./video/pixis.mp4",
     profile: "출생 : 9월 13일 <br>주둔병단 남방사령관 ",
@@ -19,9 +19,9 @@ const characters = [
     id: 2,
     name: "안카 라인베르거",
     images: [
-      "../주둔/img/anka_1.webp",
-      "../주둔/img/anka_2.webp",
-      "../주둔/img/anka_3.webp",
+      "/titan/joodun/img/anka_1.webp",
+      "/titan/joodun/img/anka_2.webp",
+      "/titan/joodun/img/anka_3.webp",
     ],
     video: "./video/anka.mp4",
     profile: "출생 : 6월 1일 <br>주둔병단 소속 병사",
@@ -31,7 +31,7 @@ const characters = [
   {
     id: 3,
     name: "구스타브",
-    images: ["../주둔/img/gustav_1.webp", "img/gustav_2.jpg"],
+    images: ["/titan/joodun/img/gustav_1.webp", "img/gustav_2.jpg"],
     video: "./video/gustav.gif", // GIF 파일
     profile: "출생 : 7월 20일 <br>주둔병단 소속 병사",
     story:
@@ -40,7 +40,7 @@ const characters = [
   {
     id: 4,
     name: "킷츠 벨만",
-    images: ["../주둔/img/kitz_1.webp", "../주둔/img/kitz_2.webp"],
+    images: ["/titan/joodun/img/kitz_1.webp", "/titan/joodun/img/kitz_2.webp"],
     video: "./video/kitz.mp4",
     profile: "출생 : 8월 2일 <br>주둔병단 제1사단 정예부대 대장",
     story:
@@ -49,7 +49,7 @@ const characters = [
   {
     id: 5,
     name: "이안 디트리히",
-    images: ["../주둔/img/ian_1.webp"],
+    images: ["/titan/joodun/img/ian_1.webp"],
     video: "./video/ian.mp4",
     profile: "출생 : 3월 10일 <br>주둔병단 소속 정예반 반장",
     story:
@@ -59,9 +59,9 @@ const characters = [
     id: 6,
     name: "미타비 야르나하",
     images: [
-      "../주둔/img/mitabi_1.webp",
-      "../주둔/img/mitabi_2.webp",
-      "../주둔/img/mitabi_3.webp",
+      "/titan/joodun/img/mitabi_1.webp",
+      "/titan/joodun/img/mitabi_2.webp",
+      "/titan/joodun/img/mitabi_3.webp",
     ],
     video: "./video/mitabi.mp4",
     profile: "출생 : 2월 20일 <br>주둔병단 소속 정예반 반장",
@@ -72,9 +72,9 @@ const characters = [
     id: 7,
     name: "리코 브렌체스카",
     images: [
-      "../주둔/img/rico_1.webp",
-      "../주둔/img/rico_2.webp",
-      "../주둔/img/rico_3.jpg",
+      "/titan/joodun/img/rico_1.webp",
+      "/titan/joodun/img/rico_2.webp",
+      "/titan/joodun/img/rico_3.jpg",
     ],
     video: "./video/rico.mp4",
     profile: "출생 : 12월 7일 <br>주둔병단 소속 정예반 반장",
@@ -85,9 +85,9 @@ const characters = [
     id: 8,
     name: "한네스",
     images: [
-      "../주둔/img/hannes_1.webp",
-      "../주둔/img/hannes_2.webp",
-      "../주둔/img/hannes_3.webp",
+      "/titan/joodun/img/hannes_1.webp",
+      "/titan/joodun/img/hannes_2.webp",
+      "/titan/joodun/img/hannes_3.webp",
     ],
     video: "./video/hannes.mp4",
     profile: "출생 : 1월 18일 <br>주둔병단 주둔대 대장",
@@ -98,9 +98,9 @@ const characters = [
     id: 9,
     name: "프록 폴스타",
     images: [
-      "../주둔/img/floch_1.webp",
-      "../주둔/img/floch_2.webp",
-      "../주둔/img/floch_3.webp",
+      "/titan/joodun/img/floch_1.webp",
+      "/titan/joodun/img/floch_2.webp",
+      "/titan/joodun/img/floch_3.webp",
     ],
     video: "./video/floch.mp4",
     profile: "출생 : 10월 8일<br>조사병단 소속 병사, 예거파 대변인 및 부사령관",
@@ -111,9 +111,9 @@ const characters = [
     id: 10,
     name: "다즈",
     images: [
-      "../주둔/img/daz_1.webp",
-      "../주둔/img/daz_2.jpg",
-      "../주둔/img/daz_3.webp",
+      "/titan/joodun/img/daz_1.webp",
+      "/titan/joodun/img/daz_2.jpg",
+      "/titan/joodun/img/daz_3.webp",
     ],
     video: "./video/daz.mp4",
     profile: "출생 : 9월 22일 <br> 주둔병단 - 조사병단 - 예거파",
@@ -124,9 +124,9 @@ const characters = [
     id: 11,
     name: "사무엘 링케 잭슨",
     images: [
-      "../주둔/img/samuel_1.webp",
-      "../주둔/img/samuel_2.webp",
-      "../주둔/img/samuel_3.webp",
+      "/titan/joodun/img/samuel_1.webp",
+      "/titan/joodun/img/samuel_2.webp",
+      "/titan/joodun/img/samuel_3.webp",
     ],
     video: "./video/samuel.mp4",
     profile: "출생 : 12월 20일<br>조사병단 - 예거파",
@@ -136,7 +136,7 @@ const characters = [
   {
     id: 12,
     name: "로보프",
-    images: ["../주둔/img/lobov_1.webp"],
+    images: ["/titan/joodun/img/lobov_1.webp"],
     video: "./video/lobov.mp4",
     profile: "출생 : 8월 11일<br>주둔병단 사단장 - 조사병단 소속 병사",
     story:
@@ -218,7 +218,7 @@ function openDetail(id) {
     id,
     c.name,
     c.images[0],
-    "../주둔/titan.html",
+    "/titan/joodun/titan.html",
   );
 
   listView.style.display = "none";
@@ -254,7 +254,7 @@ function changeDetail(id) {
     id,
     c.name,
     c.images[0],
-    "../주둔/titan.html",
+    "../joodun/titan.html",
   );
   renderDetail(id);
   renderSidebar(id);

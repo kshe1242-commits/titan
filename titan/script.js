@@ -6,9 +6,9 @@ const characters = [
     id: 1,
     name: "진격의 거인",
     images: [
-      "../거인/img/attack_t.jpg",
-      "../거인/img/attack_t2.webp",
-      "../거인/img/attack_t5.webp",
+      "/titan/titan/img/attack_t.jpg",
+      "/titan/titan/img/attack_t2.webp",
+      "/titan/titan/img/attack_t5.webp",
     ],
     video: "./video/attack_t.mp4",
     profile:
@@ -20,9 +20,9 @@ const characters = [
     id: 2,
     name: "여성형 거인",
     images: [
-      "../거인/img/female_t.jpg",
-      "../거인/img/female_t2.jfif",
-      "../거인/img/female_t4.png",
+      "/titan/titan/img/female_t.jpg",
+      "/titan/titan/img/female_t2.jfif",
+      "/titan/titan/img/female_t4.png",
     ],
     video: "./video/female_t.mp4",
     profile:
@@ -34,9 +34,9 @@ const characters = [
     id: 3,
     name: "갑옷 거인",
     images: [
-      "../거인/img/armored_t.jpg",
-      "../거인/img/armored_t2.jpg",
-      "../거인/img/armored_t3.webp",
+      "/titan/titan/img/armored_t.jpg",
+      "/titan/titan/img/armored_t2.jpg",
+      "/titan/titan/img/armored_t3.webp",
     ],
     video: "./video/armored_t.mp4",
     profile:
@@ -48,9 +48,9 @@ const characters = [
     id: 4,
     name: "초대형 거인",
     images: [
-      "../거인/img/colossal_t.jpg",
-      "../거인/img/colossal_t2.jfif",
-      "../거인/img/colossal_t4.jfif",
+      "/titan/titan/img/colossal_t.jpg",
+      "/titan/titan/img/colossal_t2.jfif",
+      "/titan/titan/img/colossal_t4.jfif",
     ],
     video: "./video/colossal_t.mp4",
     profile:
@@ -62,9 +62,9 @@ const characters = [
     id: 5,
     name: "짐승 거인",
     images: [
-      "../거인/img/beast_t.jpg",
-      "../거인/img/beast_t4.webp",
-      "../거인/img/beast_t3.webp",
+      "/titan/titan/img/beast_t.jpg",
+      "/titan/titan/img/beast_t4.webp",
+      "/titan/titan/img/beast_t3.webp",
     ],
     video: "./video/beast_t.mp4",
     profile:
@@ -76,9 +76,9 @@ const characters = [
     id: 6,
     name: "턱 거인",
     images: [
-      "../거인/img/jaw_t.jpg",
-      "../거인/img/jaw_t4.webp",
-      "../거인/img/jaw_t5.jpg",
+      "/titan/titan/img/jaw_t.jpg",
+      "/titan/titan/img/jaw_t4.webp",
+      "/titan/titan/img/jaw_t5.jpg",
     ],
     video: "./video/jaw_t.mp4",
     profile:
@@ -90,9 +90,9 @@ const characters = [
     id: 7,
     name: "차력 거인",
     images: [
-      "../거인/img/cart_t.jpg",
-      "../거인/img/cart_t4.png",
-      "../거인/img/cart_t3.jfif",
+      "/titan/titan/img/cart_t.jpg",
+      "/titan/titan/img/cart_t4.png",
+      "/titan/titan/img/cart_t3.jfif",
     ],
     video: "./video/cart_t.mp4",
     profile:
@@ -104,9 +104,9 @@ const characters = [
     id: 8,
     name: "전퇴의 거인",
     images: [
-      "../거인/img/warhammer_t.jpg",
-      "../거인/img/warhammer_t4.webp",
-      "../거인/img/warhammer_t3.webp",
+      "/titan/titan/img/warhammer_t.jpg",
+      "/titan/titan/img/warhammer_t4.webp",
+      "/titan/titan/img/warhammer_t3.webp",
     ],
     video: "./video/warhammer_t.mp4",
     profile:
@@ -118,9 +118,9 @@ const characters = [
     id: 9,
     name: "시조 거인",
     images: [
-      "../거인/img/founding_t.jpg",
-      "../거인/img/founding_t4.png",
-      "../거인/img/founding_t5.png",
+      "/titan/titan/img/founding_t.jpg",
+      "/titan/titan/img/founding_t4.png",
+      "/titan/titan/img/founding_t5.png",
     ],
     video: "./video/founding_t.mp4",
     profile:
@@ -132,9 +132,9 @@ const characters = [
     id: 10,
     name: "종미의 거인",
     images: [
-      "../거인/img/final_t.jpg",
-      "../거인/img/final_t4.jpg",
-      "../거인/img/final_t5.webp",
+      "/titan/titan/img/final_t.jpg",
+      "/titan/titan/img/final_t4.jpg",
+      "/titan/titan/img/final_t5.webp",
     ],
     video: "./video/final_t.mp4",
     profile:

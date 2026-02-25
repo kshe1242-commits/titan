@@ -267,7 +267,7 @@ function openDetail(id) {
     id,
     c.name,
     c.img,
-    "../헌병/헌병단.html",
+    "../hunbyeong/hunbyeong.html",
   );
 
   window.location.hash = "detail";
@@ -330,7 +330,7 @@ function changeDetail(id) {
     id,
     c.name,
     c.img,
-    "../헌병/헌병단.html",
+    "../hunbyeong/hunbyeong.html",
   );
 
   renderSidebar(id);
